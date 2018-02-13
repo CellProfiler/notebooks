@@ -36,6 +36,7 @@ dependencies:
   - tifffile
   - pip:
     - centrosome
+    - imagej
     - inflect
     - prokaryote==2.3.2
     - javabridge==1.0.15
