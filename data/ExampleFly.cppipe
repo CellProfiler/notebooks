@@ -1,0 +1,170 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:3
+DateRevision:300
+GitHash:eb6fa7a7e
+ModuleCount:10
+HasImagePlaneDetails:False
+
+Crop:[module_num:1|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Crop the DAPI image down to a 200 x 200 rectangle by entering specific coordinates.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigBlue
+    Name the output image:CropBlue
+    Select the cropping shape:Rectangle
+    Select the cropping method:Coordinates
+    Apply which cycle\'s cropping pattern?:First
+    Left and right rectangle positions:501,700
+    Top and bottom rectangle positions:251,450
+    Coordinates of ellipse center:200,500
+    Ellipse radius, X direction:400
+    Ellipse radius, Y direction:200
+    Remove empty rows and columns?:Edges
+    Select the masking image:None
+    Select the image with a cropping mask:None
+    Select the objects:None
+
+Crop:[module_num:2|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Use the same cropping from the DAPI image for FITC image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigGreen
+    Name the output image:CropGreen
+    Select the cropping shape:Previous cropping
+    Select the cropping method:Coordinates
+    Apply which cycle\'s cropping pattern?:First
+    Left and right rectangle positions:300,600
+    Top and bottom rectangle positions:300,600
+    Coordinates of ellipse center:500,500
+    Ellipse radius, X direction:400
+    Ellipse radius, Y direction:200
+    Remove empty rows and columns?:Edges
+    Select the masking image:None
+    Select the image with a cropping mask:CropBlue
+    Select the objects:None
+
+Crop:[module_num:3|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Use the same cropping from the DAPI image for the rhodamine image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigRed
+    Name the output image:CropRed
+    Select the cropping shape:Previous cropping
+    Select the cropping method:Coordinates
+    Apply which cycle\'s cropping pattern?:First
+    Left and right rectangle positions:300,600
+    Top and bottom rectangle positions:300,600
+    Coordinates of ellipse center:500,500
+    Ellipse radius, X direction:400
+    Ellipse radius, Y direction:200
+    Remove empty rows and columns?:Edges
+    Select the masking image:None
+    Select the image with a cropping mask:CropBlue
+    Select the objects:None
+
+IdentifyPrimaryObjects:[module_num:4|svn_version:\'Unknown\'|variable_revision_number:13|show_window:True|notes:\x5B\'Identify the nuclei from the DAPI image. Three-class thresholding performs better than the default two-class thresholding in this case.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:CropBlue
+    Name the primary objects to be identified:Nuclei
+    Typical diameter of objects, in pixel units (Min,Max):10,40
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:5
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:Yes
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Use advanced settings?:Yes
+    Threshold setting version:9
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:1.3488
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0,1
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Assign pixels in the middle intensity class to the foreground or the background?:Background
+    Size of adaptive window:10
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2
+    Thresholding method:Otsu
+
+IdentifySecondaryObjects:[module_num:5|svn_version:\'Unknown\'|variable_revision_number:10|show_window:True|notes:\x5B\'Identify the cells by using the nuclei as a "seed" region, then growing outwards until stopped by the image threshold or by a neighbor. The Propagation method is used to delineate the boundary between neighboring cells.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:Nuclei
+    Name the objects to be identified:Cells
+    Select the method to identify the secondary objects:Propagation
+    Select the input image:CropGreen
+    Number of pixels by which to expand the primary objects:10
+    Regularization factor:0.05
+    Discard secondary objects touching the border of the image?:No
+    Discard the associated primary objects?:No
+    Name the new primary objects:FilteredNuclei
+    Fill holes in identified objects?:Yes
+    Threshold setting version:9
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0
+    Threshold correction factor:1
+    Lower and upper bounds on threshold:0,1
+    Manual threshold:0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:10
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2
+    Thresholding method:Otsu
+
+IdentifyTertiaryObjects:[module_num:6|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Identify the cytoplasm by "subtracting" the nuclei objects from the cell objects.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the larger identified objects:Cells
+    Select the smaller identified objects:Nuclei
+    Name the tertiary objects to be identified:Cytoplasm
+    Shrink smaller object prior to subtraction?:Yes
+
+MeasureObjectSizeShape:[module_num:7|svn_version:\'Unknown\'|variable_revision_number:1|show_window:True|notes:\x5B\'Measure morphological features from the cell, nuclei and cytoplasm objects.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:Cells
+    Select objects to measure:Nuclei
+    Select objects to measure:Cytoplasm
+    Calculate the Zernike features?:No
+
+MeasureObjectIntensity:[module_num:8|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Measure intensity features from nuclei and cell objects against the cropped DAPI image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Hidden:1
+    Select an image to measure:CropBlue
+    Select objects to measure:Nuclei
+    Select objects to measure:Cells
+    Select objects to measure:Cytoplasm
+
+MeasureTexture:[module_num:9|svn_version:\'Unknown\'|variable_revision_number:5|show_window:True|notes:\x5B\'Measure texture features of the nuclei, cells and cytoplasm from the cropped DAPI image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Hidden:1
+    Hidden:3
+    Hidden:1
+    Select an image to measure:CropBlue
+    Select objects to measure:Nuclei
+    Select objects to measure:Cells
+    Select objects to measure:Cytoplasm
+    Texture scale to measure:3
+    Measure images or objects?:Both
+
+GrayToColor:[module_num:10|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Combine the cropped grayscale channels into a color RGB image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select a color scheme:RGB
+    Select the image to be colored red:CropRed
+    Select the image to be colored green:CropGreen
+    Select the image to be colored blue:CropBlue
+    Name the output image:RGBImage
+    Relative weight for the red image:1
+    Relative weight for the green image:1
+    Relative weight for the blue image:1
+    Select the image to be colored cyan:None
+    Select the image to be colored magenta:None
+    Select the image to be colored yellow:None
+    Select the image that determines brightness:None
+    Relative weight for the cyan image:1
+    Relative weight for the magenta image:1
+    Relative weight for the yellow image:1
+    Relative weight for the brightness image:1
+    Hidden:1
+    Image name:None
+    Color:#ff0000
+    Weight:1.0
