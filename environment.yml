@@ -11,7 +11,6 @@ channels:
   - conda-forge # libxml2 for windows
 dependencies:
   - appdirs
-  - cython
   - h5py
   - ipywidgets
   - java-jdk
@@ -30,16 +29,12 @@ dependencies:
   - matplotlib!=2.1.0,>2.0.0
   - mysql-python
   - numpy
-  - raven
   - requests
   - scikit-image
   - scikit-learn
   - scipy
-  - sphinx
   - tifffile
-  - wxpython
   - pip:
-    - cellh5
     - centrosome
     - inflect
     - prokaryote==2.3.2
