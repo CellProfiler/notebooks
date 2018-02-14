@@ -19,16 +19,16 @@ dependencies:
   - libxml2
   - libxslt
   - lxml
+  - mahotas
+  - matplotlib!=2.1.0,>2.0.0
+  - mysql-python
+  - numpy
   - packaging
   - pandas
   - pillow
   - pip
   - python=2
   - pyzmq=15.3.0
-  - mahotas
-  - matplotlib!=2.1.0,>2.0.0
-  - mysql-python
-  - numpy
   - requests
   - scikit-image
   - scikit-learn
