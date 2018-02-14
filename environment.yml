@@ -26,6 +26,7 @@ dependencies:
   - matplotlib!=2.1.0,>2.0.0
   - mysql-python
   - numpy
+  - openjdk>=8.0.152
   - packaging
   - pandas
   - pillow
@@ -34,7 +35,6 @@ dependencies:
   - pyzmq=15.3.0
   - requests
   - rise
-  - scijava-jupyter-kernel
   - scikit-image
   - scikit-learn
   - scipy
