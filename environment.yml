@@ -6,12 +6,15 @@ name: cpij-notebook
 channels:
   - anaconda
   - goodman # mysql-python for mac
+  - hanslovsky # imglib2-imglyb
+  - damianavila82 # rise
   - bioconda
   - cyclus # java-jdk for windows
   - conda-forge # libxml2 for windows
 dependencies:
   - appdirs
   - h5py
+  - imglib2-imglyb
   - ipywidgets
   - java-jdk
   - jupyter
@@ -30,6 +33,8 @@ dependencies:
   - python=2
   - pyzmq=15.3.0
   - requests
+  - rise
+  - scijava-jupyter-kernel
   - scikit-image
   - scikit-learn
   - scipy
