@@ -1,0 +1,102 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:3
+DateRevision:300
+GitHash:
+ModuleCount:6
+HasImagePlaneDetails:False
+
+IdentifyPrimaryObjects:[module_num:1|svn_version:\'Unknown\'|variable_revision_number:13|show_window:True|notes:\x5B\'Identify the nuclei from the nuclear stain image. \'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigBlue
+    Name the primary objects to be identified:Nuclei
+    Typical diameter of objects, in pixel units (Min,Max):120,300
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Shape
+    Method to draw dividing lines between clumped objects:Shape
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:7.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:Yes
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Use advanced settings?:Yes
+    Threshold setting version:10
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:1.3488
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Otsu
+
+MaskImage:[module_num:2|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Mask the foci image using the nuclei objects.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:EnhancedGreen
+    Name the output image:MaskedGreen
+    Use objects or an image as a mask?:Objects
+    Select object for mask:Nuclei
+    Select image for mask:None
+    Invert the mask?:No
+
+IdentifyPrimaryObjects:[module_num:3|svn_version:\'Unknown\'|variable_revision_number:13|show_window:True|notes:\x5B\'Identify the foci using per-object thresholding to compute a threshold for each individual nuclei object. Some manual adjustment of the smoothing filter size and maxima supression distance is required to optimize segmentation.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:MaskedGreen
+    Name the primary objects to be identified:h2ax
+    Typical diameter of objects, in pixel units (Min,Max):4,35
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:4
+    Suppress local maxima that are closer than this minimum allowed distance:4
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:No
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Use advanced settings?:Yes
+    Threshold setting version:10
+    Threshold strategy:Global
+    Thresholding method:RobustBackground
+    Threshold smoothing scale:1.3488
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Otsu
+
+MeasureObjectIntensity:[module_num:4|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Measure the intensity of the nuclei against the nuclei image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Hidden:1
+    Select an image to measure:OrigBlue
+    Select objects to measure:Nuclei
+
+MeasureObjectIntensity:[module_num:5|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Measure the intensity of the foci against the h2ax image.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Hidden:1
+    Select an image to measure:OrigGreen
+    Select objects to measure:h2ax
+
+RelateObjects:[module_num:6|svn_version:\'Unknown\'|variable_revision_number:3|show_window:True|notes:\x5B\'Establish a parent-child between the foci (\\xe2\\x80\\x9cchildren\\xe2\\x80\\x9d) and the nuclei (\\xe2\\x80\\x9cparents\\xe2\\x80\\x9d) in order to determine which foci belong to which nuclei. Then, calculate mean foci measurements for each nucleus.\'\x5D|batch_state:array(\x5B\x5D, dtype=uint8)|enabled:True|wants_pause:False]
+    Parent objects:Nuclei
+    Child objects:h2ax
+    Calculate child-parent distances?:None
+    Calculate per-parent means for all child measurements?:Yes
+    Calculate distances to other parents?:No
+    Parent name:None
