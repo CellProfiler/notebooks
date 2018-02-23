@@ -1,7 +1,12 @@
 # run: conda env create -f environment.yml
 # run: conda env update -f environment.yml
+<<<<<<< HEAD
 # run: conda env remove -n cp-notebooks
 name: cp-notebooks
+=======
+# run: conda env remove -n cpij-notebook
+name: cellprofiler-notebooks
+>>>>>>> 95a2558060075b0c8c9ad254413fac8dacfc2d12
 # in order of priority: lowest (top) to highest (bottom)
 channels:
   - anaconda
